@@ -1,7 +1,9 @@
 function tick()
     nameplate.ENTITY.setText(rainbow("flace", 5, 10))
 end
-
+model.Head.Het.setScale({1.4,1.4,1.4})
+animation.speeen.start()
+animation.speeen.setSpeed(3.142592653589793238462)
 function rainbow(text, speed, offset)
     local function col(x, speed, offset)
         local hue = world.getTime()*speed+x*offset % 360
