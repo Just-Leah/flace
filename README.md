@@ -15,4 +15,4 @@ Don't purposefully overwrite something that somebody has created, unless to opti
 
 Fork it, edit it a bit, open a PR. I'll look at it, otherwise nudge me in the Blancworks discord to do it.
 
-Cone.
+## Cone.
