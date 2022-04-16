@@ -94,7 +94,7 @@ function Pineapple()
 function GNHat()
 	HatOff()
 		model.Head.GNHat.setEnabled(true)
-		model.Head.Het.setPos{2.76,-6,0}
+		model.Head.Het.setPos{2.76,-5,0}
 		model.Head.Het.setRot{10,0,0}
 	end
 function KFC()
@@ -118,7 +118,7 @@ function BakerHat()
 function WizardHat()
 	HatOff()
 		model.Head.WizardHat.setEnabled(true)
-		model.Head.Het.setPos{-3.8,-5,0}
+		model.Head.Het.setPos{-3.8,-4.5,0}
 		model.Head.Het.setRot{10,0,-70}
 	end
 function MushroomHat()
