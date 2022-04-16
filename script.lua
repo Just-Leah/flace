@@ -62,6 +62,14 @@ action_wheel.SLOT_7.setTitle("Mushroom Hat")
 action_wheel.SLOT_7.setTexture("Custom")
 action_wheel.SLOT_7.setTextureScale({0.15,0.15})
 action_wheel.SLOT_7.setUV({80, 112}, {16, 16}, {128, 128})
+
+action_wheel.SLOT_8.setFunction(function()
+	for key, value in pairs(Hats) do
+		value.setEnabled(false)
+		end
+	end)
+action_wheel.SLOT_8.setItem("minecraft:barrier")
+action_wheel.SLOT_8.setTitle("Remove Hat")
 Hats = {
     model.Head.GNHat,
 	model.Head.Pineapple,
@@ -71,47 +79,47 @@ Hats = {
 	model.Head.WizardHat,
 	model.Head.MushroomHat
 }
-for key, value in pairs(Hats) do 
+for key, value in pairs(Hats) do
 	value.setEnabled(false)
 end
 function ping.Pineapple()
-	for key, value in pairs(Hats) do 
+	for key, value in pairs(Hats) do
 		value.setEnabled(false)
 	end
 		model.Head.Pineapple.setEnabled(true)
 	end
 function ping.GNHat()
-	for key, value in pairs(Hats) do 
+	for key, value in pairs(Hats) do
 		value.setEnabled(false)
 	end
 		model.Head.GNHat.setEnabled(true)
 	end
 function ping.KFC()
-	for key, value in pairs(Hats) do 
+	for key, value in pairs(Hats) do
 		value.setEnabled(false)
 	end
 		model.Head.KFC_Bucket.setEnabled(true)
 	end
 function ping.Crown()
-	for key, value in pairs(Hats) do 
+	for key, value in pairs(Hats) do
 		value.setEnabled(false)
 	end
 		model.Head.Crown.setEnabled(true)
 	end
 function ping.BakerHat()
-	for key, value in pairs(Hats) do 
+	for key, value in pairs(Hats) do
 		value.setEnabled(false)
 	end
 		model.Head.BakerHat.setEnabled(true)
 	end
 function ping.WizardHat()
-	for key, value in pairs(Hats) do 
+	for key, value in pairs(Hats) do
 		value.setEnabled(false)
 	end
 		model.Head.WizardHat.setEnabled(true)
 	end
 function ping.MushroomHat()
-	for key, value in pairs(Hats) do 
+	for key, value in pairs(Hats) do
 		value.setEnabled(false)
 	end
 		model.Head.MushroomHat.setEnabled(true)
