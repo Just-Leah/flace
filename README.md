@@ -15,4 +15,9 @@ Don't purposefully overwrite something that somebody has created, unless to opti
 
 Fork it, edit it a bit, open a PR. I'll look at it, otherwise nudge me in the Blancworks discord to do it.
 
-## Cone.
+## Credits
+• MxDuck with the Cone Het
+• Manuel with the original rainbow nametag
+• ItsToastCraft with the Hats and backpack
+• Auria with 98% of the code
+• Ringlings for having this idea
