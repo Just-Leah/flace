@@ -28,7 +28,7 @@ model.Head.Het.setScale({1.4,1.4,1.4})
 
 Hats = {
 	model.Head.Pineapple,
-    model.Head.GNHat,
+    	model.Head.GNHat,
 	model.Head.KFC_Bucket,
 	model.Head.Crown,
 	model.Head.BakerHat,
