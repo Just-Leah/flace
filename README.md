@@ -13,7 +13,7 @@ Don't purposefully overwrite something that somebody has created, unless to opti
 
 ## How do I do it?
 
-Fork it, edit it a bit, open a PR. I'll look at it, otherwise nudge me in the Blancworks discord to do it.
+Fork it, edit it a bit, open a PR. I'll look at it, otherwise nudge me in the Moonlight discord to do it.
 
 ## Credits
 
