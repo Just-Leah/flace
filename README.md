@@ -16,3 +16,15 @@ Don't purposefully overwrite something that somebody has created, unless to opti
 Fork it, edit it a bit, open a PR. We'll look at it, otherwise nudge us in the Moonlight discord to do it.
 
 ## Cone.
+
+## Credits
+
+• MxDuck with the Cone Het
+
+• Manuel with the original rainbow nametag
+
+• ItsToastCraft with the Hats and backpack
+
+• Auria with 98% of the code
+
+• Ringlings for having this idea

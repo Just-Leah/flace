@@ -28,13 +28,15 @@ model.Head.Het.setScale({1.4,1.4,1.4})
 
 Hats = {
 	model.Head.Pineapple,
-    model.Head.GNHat,
+    	model.Head.GNHat,
 	model.Head.KFC_Bucket,
 	model.Head.Crown,
 	model.Head.BakerHat,
 	model.Head.WizardHat,
 	model.Head.MushroomHat,
 	model.Head.Het,
+	model.Head.EasterBasket,
+	model.Head.FryingPan
 }
 
 currentHat = tonumber(data.load("hat")) or 0
@@ -46,7 +48,7 @@ function setHat(x)
 	end
 end
 
-function switchHat(x)
+function ping.switchHat(x)
 	data.save("hat", x)
 	ping.setHat(x)
 end
@@ -70,42 +72,42 @@ pingsRefresh = {
 
 if client.isHost() then
 	local goToMain = {
-		Title = "back",
+		Title = "Back to Main Page",
 		Function = function() setWheel("main") end,
 		Texture = "Custom",
-		UV = {24, 104, 8, 8, texture.x, texture.y},
+		UV = {48, 80, 16, 16, texture.x, texture.y},
 	}
 	action_wheel_folders = {
 		pages = {
 			page = 0,
 			name = "",
 			right = {
-				setTitle = "next page", 
+				setTitle = "Next", 
 				setFunction = function() setWheel(action_wheel_folders.pages.name, action_wheel_folders.pages.page+1) end,
 				Texture = "Custom",
-				setUV = {16, 96, 8, 8, texture.x, texture.y},
+				setUV = {32, 80, 16, 16, texture.x, texture.y},
 			},
 			left = {
-				setTitle = "previous page", 
+				setTitle = "Previous", 
 				setFunction = function() setWheel(action_wheel_folders.pages.name, action_wheel_folders.pages.page-1) end, 
 				Texture = "Custom",
-				setUV = {24, 96, 8, 8, texture.x, texture.y},
+				setUV = {48, 80, -16, 16, texture.x, texture.y},
 			},
 			first = {
-				setTitle = "u are on first page",
+				setTitle = "You're on the first page",
 				Texture = "Custom",
-				setUV = {16, 104, 8, 8, texture.x, texture.y},
+				setUV = {16, 80, 16, 16, texture.x, texture.y},
 			},
 			last = {
-				setTitle = "u are on last page",
+				setTitle = "You're on the last page",
 				setFunction = function() end, setHoverColor = {255/255, 80/255, 120/255},
 				Texture = "Custom",
-				setUV = {16, 104, 8, 8, texture.x, texture.y},
+				setUV = {16, 80, 16, 16, texture.x, texture.y},
 			}
 		},
 		main = {
 			{
-				Title = '{"text":"hats","color":"#FF4488"},{"text":"!","color":"#FF88AA"}]',
+				Title = '{"text":"Hats","color":"#FF4488"},{"text":"!","color":"#FF88AA"}]',
 				Item = "leather_helmet{display:{color:16729258}}",
 				Function = function() setWheel("hats") end
 			}
@@ -113,56 +115,68 @@ if client.isHost() then
 		hats = {
 			goToMain,
 			{
-				Title = "Remove Hat",
+				Title = '{"text":"Remove Hat","color":"#d43b3b"}',
 				Item = "barrier",
-				Function = {switchHat, 0},
+				Function = {ping.switchHat, 0},
 			},
 			{
-				Title = "Pineapple Hat",
+				Title = '{"text":"Pineapple Hat","color":"#f5b622"}',
 				Texture = "Custom",
 				setUV = {0, 112,  16, 16, texture.x, texture.y},
-				Function = {switchHat, 1},
+				Function = {ping.switchHat, 1},
 			},
 			{
-				Title = "GNamimates Hat",
+				Title = '{"text":"GNamimates Hat","color":"#39b54a"}',
 				Texture = "Custom",
 				setUV = {64, 112,  16, 16, texture.x, texture.y},
-				Function = {switchHat, 2},
+				Function = {ping.switchHat, 2},
 			},
 			{
-				Title = "KFC Bucket Hat",
+				Title = '{"text":"KFC Bucket Hat","color":"#bb4356"}',
 				Texture = "Custom",
 				setUV = {16, 112,  16, 16, texture.x, texture.y},
-				Function = {switchHat, 3},
+				Function = {ping.switchHat, 3},
 			},
 			{
-				Title = "Crown",
+				Title = '{"text":"Crown Hat","color":"#ffeb4e"}',
 				Texture = "Custom",
 				setUV = {32, 112,  16, 16, texture.x, texture.y},
-				Function = {switchHat, 4},
+				Function = {ping.switchHat, 4},
 			},
 			{
-				Title = "Baker Hat",
+				Title = '{"text":"Baker Hat","color":"#fef9ed"}',
 				Texture = "Custom",
 				setUV = {48, 112,  16, 16, texture.x, texture.y},
-				Function = {switchHat, 5},
+				Function = {ping.switchHat, 5},
 			},
 			{
-				Title = "Wizard Hat",
+				Title = '{"text":"Wizard Hat","color":"#222a82"}',
 				Texture = "Custom",
 				setUV = {96, 112,  16, 16, texture.x, texture.y},
-				Function = {switchHat, 6},
+				Function = {ping.switchHat, 6},
 			},
 			{
-				Title = "Mushroom Hat",
+				Title = '{"text":"Mushroom Hat","color":"#ea5c42"}',
 				Texture = "Custom",
 				setUV = {80, 112,  16, 16, texture.x, texture.y},
-				Function = {switchHat, 7},
+				Function = {ping.switchHat, 7},
 			},
 			{
 				Title = "Het",
 				Item = "stone",
-				Function = {switchHat, 8},
+				Function = {ping.switchHat, 8},
+			},
+			{
+				Title = '{"text":"Easter Basket Hat","color":"#2fd1c5"}',
+				Texture = "Custom",
+				setUV = {32, 96,  16, 16, texture.x, texture.y},
+				Function = {ping.switchHat, 9},
+			},
+			{
+				Title = '{"text":"Frying Pan Hat","color":"#292b31"}',
+				Texture = "Custom",
+				setUV = {48, 96,  16, 16, texture.x, texture.y},
+				Function = {ping.switchHat, 10},
 			}
 		}
 	}
@@ -267,150 +281,5 @@ function rainbow_text(text, time, speed, offset, saturation)
         json = json .. '{"text": "'..char..'", "color": "'..string.format("#%02x%02x%02x", color.r, color.g, color.b)..'"},'
     end
     return json:sub(1, -2).."]"
-end
---ItsToastCraft was here
---[[
-do
-	
-CData = 1
-PData = 1
-action_wheel.SLOT_1.setFunction(function() PData = 1 ping.HatPing(PData) end)
-action_wheel.SLOT_1.setTitle("Pineapple Hat")
-action_wheel.SLOT_1.setTexture("Custom")
-action_wheel.SLOT_1.setTextureScale({0.15,0.15})
-action_wheel.SLOT_1.setUV({0, 112}, {16, 16}, {128, 128})
-
-action_wheel.SLOT_2.setFunction(function() PData = 2 ping.HatPing(PData) end)
-action_wheel.SLOT_2.setTitle("GNamimates Hat")
-action_wheel.SLOT_2.setTexture("Custom")
-action_wheel.SLOT_2.setTextureScale({0.15,0.15})
-action_wheel.SLOT_2.setUV({64, 112}, {16, 16}, {128, 128})
-
-action_wheel.SLOT_3.setFunction(function() PData = 3 ping.HatPing(PData) end)
-action_wheel.SLOT_3.setTitle("KFC Bucket Hat")
-action_wheel.SLOT_3.setTexture("Custom")
-action_wheel.SLOT_3.setTextureScale({0.15,0.15})
-action_wheel.SLOT_3.setUV({16, 112}, {16, 16}, {128, 128})
-
-action_wheel.SLOT_4.setFunction(function() PData = 4 ping.HatPing(PData) end)
-action_wheel.SLOT_4.setTitle("Pineapple Hat")
-action_wheel.SLOT_4.setTexture("Custom")
-action_wheel.SLOT_4.setTextureScale({0.15,0.15})
-action_wheel.SLOT_4.setUV({32, 112}, {16, 16}, {128, 128})
-
-action_wheel.SLOT_5.setFunction(function() PData = 5 ping.HatPing(PData) end)
-action_wheel.SLOT_5.setTitle("Baker Hat")
-action_wheel.SLOT_5.setTexture("Custom")
-action_wheel.SLOT_5.setTextureScale({0.15,0.15})
-action_wheel.SLOT_5.setUV({48, 112}, {16, 16}, {128, 128})
-
-action_wheel.SLOT_6.setFunction(function() PData = 6 ping.HatPing(PData) end)
-action_wheel.SLOT_6.setTitle("Wizard Hat")
-action_wheel.SLOT_6.setTexture("Custom")
-action_wheel.SLOT_6.setTextureScale({0.15,0.15})
-action_wheel.SLOT_6.setUV({96, 112}, {16, 16}, {128, 128})
-
-action_wheel.SLOT_7.setFunction(function() PData = 7 ping.HatPing(PData) end)
-action_wheel.SLOT_7.setTitle("Mushroom Hat")
-action_wheel.SLOT_7.setTexture("Custom")
-action_wheel.SLOT_7.setTextureScale({0.15,0.15})
-action_wheel.SLOT_7.setUV({80, 112}, {16, 16}, {128, 128})
-end
-action_wheel.SLOT_8.setFunction(function()
-	PData = 0
-	ping.HatPing(PData)
-	end)
-action_wheel.SLOT_8.setItem("minecraft:barrier")
-action_wheel.SLOT_8.setTitle("Remove Hat")
-Hats = {
-    model.Head.GNHat,
-	model.Head.Pineapple,
-	model.Head.KFC_Bucket,
-	model.Head.Crown,
-	model.Head.BakerHat,
-	model.Head.WizardHat,
-	model.Head.MushroomHat
-}
-for key, value in pairs(Hats) do
-	value.setEnabled(false)
-end
-function Pineapple()
-	HatOff()
-		model.Head.Pineapple.setEnabled(true)
-		model.Head.Het.setPos{2.5,-5,0}
-		model.Head.Het.setRot{0,0,75}
-	end
-function GNHat()
-	HatOff()
-		model.Head.GNHat.setEnabled(true)
-		model.Head.Het.setPos{2.76,-5,0}
-		model.Head.Het.setRot{10,0,0}
-	end
-function KFC()
-	HatOff()
-		model.Head.KFC_Bucket.setEnabled(true)
-		model.Head.Het.setPos{2,-8,-2}
-		model.Head.Het.setRot{0,70,0}
-	end
-function Crown()
-	HatOff()
-		model.Head.Crown.setEnabled(true)
-		model.Head.Het.setPos{0,0,0}
-		model.Head.Het.setRot{0,0,0}
-	end
-function BakerHat()
-	HatOff()
-		model.Head.BakerHat.setEnabled(true)
-		model.Head.Het.setPos{-2,-7,1}
-		model.Head.Het.setRot{10,0,-10}
-	end
-function WizardHat()
-	HatOff()
-		model.Head.WizardHat.setEnabled(true)
-		model.Head.Het.setPos{-3.8,-4.5,0}
-		model.Head.Het.setRot{10,0,-70}
-	end
-function MushroomHat()
-	HatOff()
-		model.Head.MushroomHat.setEnabled(true)
-		model.Head.Het.setPos{-2,-2.2,1}
-		model.Head.Het.setRot{0,10,-20}
-	end
-	function HatOff()
-		for key, value in pairs(Hats) do
-			value.setEnabled(false)
-		end
-		model.Head.Het.setPos{0,0,0}
-		model.Head.Het.setRot{0,0,0}
-	end
-function ping.HatPing(PData)
-	CData = PData
-	if CData == 0 then
-		HatOff()
-	elseif CData == 1 then
-		Pineapple()
-	elseif CData == 2 then
-		GNHat()
-	elseif CData == 3 then
-		KFC()
-	elseif CData == 4 then
-		Crown()
-	elseif CData == 5 then
-		BakerHat()
-	elseif CData == 6 then
-	WizardHat()
-	elseif CData == 7 then
-		MushroomHat()
-	end
-end
-timetim = 400
-syncthym = 0
-function tick()
-if syncthym > timetim then
-  syncthym = 0
-  ping.HatPing(PData)
-else
-syncthym = syncthym + 1
-end
 end
 --]]
