@@ -4,10 +4,10 @@ require("PlayerNotifier") --does stuff when players change
 --data api!!!
 config:setName("Flace")
 local player_name = ""
--- hide some vanilla stuff --
+-- some vanilla stuff --
 vanilla_model.HELMET:setVisible(false)
 vanilla_model.CAPE:setVisible(false)
-
+vanilla_model.HELMET_ITEM:setVisible(true)
 -- vector things --
 local vec0 = vec(0, 0, 0)
 local vec3 = vec(1,1,1)
@@ -19,6 +19,7 @@ local texture = vec(128, 128) -- widgth, height
 ping = {}
 local time = 0
 local lhat = 0
+local lastHex = ""
 -- some model stuff --
 local bbmodel = models.model
 local hed = bbmodel.Head
@@ -49,7 +50,7 @@ local hetPlace = {
 	{pos = vec(-2,8,-2), rot = vec(0,70,0)},
 	{pos = vec(0,0,0), rot = vec(0,0,0)},
 	{pos = vec(2,7,1), rot = vec(10,0,-10)},
-	{pos = vec(3.8,5,0), rot = vec(10,0,-70)},
+	{pos = vec(3.5,5,0), rot = vec(10,0,-70)},
 	{pos = vec(2,2.2,-1), rot = vec(0,10,-20)},
 	{pos = vec(0,3,5.5), rot = vec(90,0,-30)},
 	{pos = vec(-13,3.7,0), rot = vec(0,0,-10)}
@@ -104,7 +105,7 @@ page1:newAction(6):setTexture(texture,48,112,16,16):setOnLeftClick(function()pin
 :title('{"text":"Baker\'s Hat","color":"#fef9ed"}')
 page1:newAction(7):setTexture(texture,96,112,16,16):setOnLeftClick(function()pings.setHat(6)end)
 :title('{"text":"Wizard Hat","color":"#222a82"}')
-page1:newAction(8):setTexture(texture,48,80,16,16):setOnLeftClick(function()action_wheel:setPage(page0) end)
+local MenuAction = page1:newAction(8):setTexture(texture,48,80,16,16):setOnLeftClick(function()action_wheel:setPage(page0) end)
 :title("Back to Main Page")
 page1:newAction(1):setTexture(texture,32,80,16,16):setOnLeftClick(function()action_wheel:setPage(page2) end)
 :title("Next")
@@ -117,8 +118,7 @@ page2:newAction(4):setTexture(texture,48,96,16,16):setOnLeftClick(function()ping
 :title('{"text":"Frying Pan","color":"#292b31"}')
 page2:newAction(5):setItem("minecraft:barrier"):setOnLeftClick(function()pings.setHat(0)end)
 :title('{"text":"Remove Hat","color":"#d43b3b"}')
-page2:newAction(8):setTexture(texture,48,80,16,16):setOnLeftClick(function()action_wheel:setPage(page0) end)
-:title("Back to Main Page")
+page2:setAction(8,MenuAction)
 page2:newAction(1):setTexture(texture,32,80,16,16):setOnLeftClick(function()action_wheel:setPage(page1) end)
 :title("Next")
 end
@@ -132,12 +132,14 @@ function events.tick()
 
 	--nameplate--
     nameplate.ALL:setText(rainbow_text(player_name, worldTime, 5.875, 20.348568))
+    avatar:color(lastHex)
 	--nameplate.ENTITY:setText(rainbow_text(player_name, worldTime + 3, 5, 10, 0.3))
 	if lhat ~= currentHat then
 	nameplate.ENTITY:setPos(0, currentHat == 0 and 0 or 0.4, 0)
 	lhat = currentHat
 	end
 end
+
 local jsonName = {}
 function rainbow_text(text, time, speed, offset)
     for i = 1, #text do
@@ -147,7 +149,7 @@ function rainbow_text(text, time, speed, offset)
 			jsonName[i].text = char
 		end
 		local color = vectors.hsvToRGB((time * speed + i * offset) / 1000, 1, 1)
-
+		if i == #text then lastHex = color end
 		jsonName[i].color = '#'..vectors.rgbToHex(color)
     end
 
