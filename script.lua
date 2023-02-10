@@ -1,59 +1,74 @@
+--imported libraries
+local json = require("sdkjson") --minified dkjson
+require("PlayerNotifier") --does stuff when players change
 --data api!!!
-data.setName("Flace")
-
+config:setName("Flace")
+local player_name = ""
 -- hide some vanilla stuff --
-armor_model.HELMET.setEnabled(false)
-vanilla_model.CAPE.setEnabled(false)
+vanilla_model.HELMET:setVisible(false)
+vanilla_model.CAPE:setVisible(false)
 
 -- vector things --
-
-vec = vectors.of
-vec0 = vec{0, 0, 0}
-vec3 = vec{1, 1, 1}
+local vec0 = vec(0, 0, 0)
+local vec3 = vec(1,1,1)
 
 -- texture size --
-
-texture = vec{128, 128} -- widgth, height
-
+local texture = vec(128, 128) -- widgth, height
+--						   funny misspelling ^
 --variables --
-
-time = 0
-
+ping = {}
+local time = 0
+local lhat = 0
 -- some model stuff --
-animation.speeen.start()
-animation.speeen.setSpeed(2)
-model.Head.Het.setScale({1.4,1.4,1.4})
+local bbmodel = models.model
+local hed = bbmodel.Head
+local anima = animations.model
+anima.speeen:play()
+anima.speeen:setSpeed(math.pi)
+hed.Het:setScale(1.4,1.4,1.4)
 
 -- hats --
 
-Hats = {
-	model.Head.Pineapple,
-    	model.Head.GNHat,
-	model.Head.KFC_Bucket,
-	model.Head.Crown,
-	model.Head.BakerHat,
-	model.Head.WizardHat,
-	model.Head.MushroomHat,
-	model.Head.Het,
-	model.Head.EasterBasket,
-	model.Head.FryingPan
-}
 
-currentHat = tonumber(data.load("hat")) or 0
+Hats = {
+	hed.Pineapple,
+  hed.GNHat,
+	hed.KFC_Bucket,
+	hed.Crown,
+	hed.BakerHat,
+	hed.WizardHat,
+	hed.MushroomHat,
+	hed.EasterBasket,
+	hed.FryingPan
+}
+local het = hed.Het
+local hetPlace = {
+
+	{pos = vec(-2.5,5,0), rot = vec(0,0,75)},
+	{pos = vec(2.76,5,0), rot = vec(10,0,0)},
+	{pos = vec(-2,8,-2), rot = vec(0,70,0)},
+	{pos = vec(0,0,0), rot = vec(0,0,0)},
+	{pos = vec(2,7,1), rot = vec(10,0,-10)},
+	{pos = vec(3.8,5,0), rot = vec(10,0,-70)},
+	{pos = vec(2,2.2,-1), rot = vec(0,10,-20)},
+	{pos = vec(0,3,5.5), rot = vec(90,0,-30)},
+	{pos = vec(-13,3.7,0), rot = vec(0,0,-10)}
+}
+hetPlace[0] = {pos = vec(0,0,0), rot = vec(0,0,0)}
+local currentHat = config:load("hat") or 0
 
 function setHat(x)
+	local x = x or 0
 	currentHat = x
 	for i, v in pairs(Hats) do
-		v.setEnabled(i == x)
+		v:setVisible(i == x)
 	end
+	het:setPos(hetPlace[x].pos)
+	het:setRot(hetPlace[x].rot)
 end
 
-function ping.switchHat(x)
-	data.save("hat", x)
-	ping.setHat(x)
-end
-
-function ping.setHat(x)
+function pings.setHat(x)
+	config:save("hat", x)
 	setHat(x)
 end
 
@@ -65,221 +80,82 @@ a = function(x) print(x) end
 
 pingsRefresh = {
 	tickDelay = 50,
-	{ping.setHat, _G, "currentHat"},
+	{pings.setHat, _G, "currentHat"},
 }
 
 -- action wheel --
 
-if client.isHost() then
-	local goToMain = {
-		Title = "Back to Main Page",
-		Function = function() setWheel("main") end,
-		Texture = "Custom",
-		UV = {48, 80, 16, 16, texture.x, texture.y},
-	}
-	action_wheel_folders = {
-		pages = {
-			page = 0,
-			name = "",
-			right = {
-				setTitle = "Next", 
-				setFunction = function() setWheel(action_wheel_folders.pages.name, action_wheel_folders.pages.page+1) end,
-				Texture = "Custom",
-				setUV = {32, 80, 16, 16, texture.x, texture.y},
-			},
-			left = {
-				setTitle = "Previous", 
-				setFunction = function() setWheel(action_wheel_folders.pages.name, action_wheel_folders.pages.page-1) end, 
-				Texture = "Custom",
-				setUV = {48, 80, -16, 16, texture.x, texture.y},
-			},
-			first = {
-				setTitle = "You're on the first page",
-				Texture = "Custom",
-				setUV = {16, 80, 16, 16, texture.x, texture.y},
-			},
-			last = {
-				setTitle = "You're on the last page",
-				setFunction = function() end, setHoverColor = {255/255, 80/255, 120/255},
-				Texture = "Custom",
-				setUV = {16, 80, 16, 16, texture.x, texture.y},
-			}
-		},
-		main = {
-			{
-				Title = '{"text":"Hats","color":"#FF4488"},{"text":"!","color":"#FF88AA"}]',
-				Item = "leather_helmet{display:{color:16729258}}",
-				Function = function() setWheel("hats") end
-			}
-		},
-		hats = {
-			goToMain,
-			{
-				Title = '{"text":"Remove Hat","color":"#d43b3b"}',
-				Item = "barrier",
-				Function = {ping.switchHat, 0},
-			},
-			{
-				Title = '{"text":"Pineapple Hat","color":"#f5b622"}',
-				Texture = "Custom",
-				setUV = {0, 112,  16, 16, texture.x, texture.y},
-				Function = {ping.switchHat, 1},
-			},
-			{
-				Title = '{"text":"GNamimates Hat","color":"#39b54a"}',
-				Texture = "Custom",
-				setUV = {64, 112,  16, 16, texture.x, texture.y},
-				Function = {ping.switchHat, 2},
-			},
-			{
-				Title = '{"text":"KFC Bucket Hat","color":"#bb4356"}',
-				Texture = "Custom",
-				setUV = {16, 112,  16, 16, texture.x, texture.y},
-				Function = {ping.switchHat, 3},
-			},
-			{
-				Title = '{"text":"Crown Hat","color":"#ffeb4e"}',
-				Texture = "Custom",
-				setUV = {32, 112,  16, 16, texture.x, texture.y},
-				Function = {ping.switchHat, 4},
-			},
-			{
-				Title = '{"text":"Baker Hat","color":"#fef9ed"}',
-				Texture = "Custom",
-				setUV = {48, 112,  16, 16, texture.x, texture.y},
-				Function = {ping.switchHat, 5},
-			},
-			{
-				Title = '{"text":"Wizard Hat","color":"#222a82"}',
-				Texture = "Custom",
-				setUV = {96, 112,  16, 16, texture.x, texture.y},
-				Function = {ping.switchHat, 6},
-			},
-			{
-				Title = '{"text":"Mushroom Hat","color":"#ea5c42"}',
-				Texture = "Custom",
-				setUV = {80, 112,  16, 16, texture.x, texture.y},
-				Function = {ping.switchHat, 7},
-			},
-			{
-				Title = "Het",
-				Item = "stone",
-				Function = {ping.switchHat, 8},
-			},
-			{
-				Title = '{"text":"Easter Basket Hat","color":"#2fd1c5"}',
-				Texture = "Custom",
-				setUV = {32, 96,  16, 16, texture.x, texture.y},
-				Function = {ping.switchHat, 9},
-			},
-			{
-				Title = '{"text":"Frying Pan Hat","color":"#292b31"}',
-				Texture = "Custom",
-				setUV = {48, 96,  16, 16, texture.x, texture.y},
-				Function = {ping.switchHat, 10},
-			}
-		}
-	}
-	
-	function setSlot(x, slot)
-		action_wheel["SLOT_"..slot].clear()
-		if not x then
-			return
-		end
-		action_wheel["SLOT_"..slot].setFunction(function() end)
-		for i, v in pairs(x) do
-			if i:sub(1, 3) ~= "set" then
-				i = "set"..i
-			end
-			if i == "setUV" then
-				
-				action_wheel["SLOT_"..slot].setTextureScale(vec3/texture*16)
-				action_wheel["SLOT_"..slot].setUV({v[1], v[2]}, {v[3], v[4]}, {v[5], v[6]})
-			elseif i == "setFunction" and type(v) == "table" then
-				action_wheel["SLOT_"..slot].setFunction(v[1], v[2])
-			else
-				action_wheel["SLOT_"..slot][i](v)
-			end
-		end
-	end
-	
-	function setWheel(wheel_folder, page)
-		if page == nil then
-			page = 0
-		end
-		if page < 0 or action_wheel_folders[wheel_folder][1+page*6] == nil then
-			return
-		end
-		action_wheel_folders.pages.name = wheel_folder
-		action_wheel_folders.pages.page = page
-		wheel_folder = action_wheel_folders[wheel_folder]
-		if #wheel_folder > 8 then
-			setSlot(action_wheel_folders.pages.right, 4)
-			setSlot(action_wheel_folders.pages.left, 5)
-			if (page-1) < 0 then
-				setSlot(action_wheel_folders.pages.first, 5)
-			end
-			if wheel_folder[7+page*6] == nil then
-				setSlot(action_wheel_folders.pages.last, 4)
-			end
-			for a = 1, 6 do
-				local slot = a+page*6
-				a = a-3
-				if a > 3 then
-					a = a + 2
-				end
-				a = (a-1)%8+1
-				setSlot(wheel_folder[slot], a)
-			end
-		else
-			for i = 1, 8 do
-				setSlot(wheel_folder[i], i)
-			end
-		end
-	end
-	
-	setWheel("main")
+if host:isHost() then
+	local texture = textures.texture
+	local page0 = action_wheel:newPage("main")
+local page1 = action_wheel:newPage("hat1")
+local page2 = action_wheel:newPage("hat2")
+action_wheel:setPage(page0)
+page0:newAction(8):setItem("leather_helmet{display:{color:16729258}}"):setTitle("Hats"):setOnLeftClick(function()action_wheel:setPage(page1)end)
+page1:newAction(2):setTexture(texture,0,112,16,16):setOnLeftClick(function()pings.setHat(1)end)
+:title('{"text":"Pineapple Hat","color":"#f5b622"}')
+page1:newAction(3):setTexture(texture,64,112,16,16):setOnLeftClick(function()pings.setHat(2)end)
+:title('{"text":"GN: The Hat","color":"#39b54a"}')
+page1:newAction(4):setTexture(texture,16,112,16,16):setOnLeftClick(function()pings.setHat(3)end)
+:title('{"text":"KFC Bucket Hat","color":"#bb4356"}')
+page1:newAction(5):setTexture(texture,32,112,16,16):setOnLeftClick(function()pings.setHat(4)end)
+:title('{"text":"Crown","color":"#ffeb4e"}')
+page1:newAction(6):setTexture(texture,48,112,16,16):setOnLeftClick(function()pings.setHat(5)end)
+:title('{"text":"Baker\'s Hat","color":"#fef9ed"}')
+page1:newAction(7):setTexture(texture,96,112,16,16):setOnLeftClick(function()pings.setHat(6)end)
+:title('{"text":"Wizard Hat","color":"#222a82"}')
+page1:newAction(8):setTexture(texture,48,80,16,16):setOnLeftClick(function()action_wheel:setPage(page0) end)
+:title("Back to Main Page")
+page1:newAction(1):setTexture(texture,32,80,16,16):setOnLeftClick(function()action_wheel:setPage(page2) end)
+:title("Next")
+
+page2:newAction(2):setTexture(texture,80,112,16,16):setOnLeftClick(function()pings.setHat(7)end)
+:title('{"text":"Mushroom Hat","color":"#ea5c42"}')
+page2:newAction(3):setTexture(texture,32,96,16,16):setOnLeftClick(function()pings.setHat(8)end)
+:title('{"text":"Easter Basket","color":"#2fd1c5"}')
+page2:newAction(4):setTexture(texture,48,96,16,16):setOnLeftClick(function()pings.setHat(9)end)
+:title('{"text":"Frying Pan","color":"#292b31"}')
+page2:newAction(5):setItem("minecraft:barrier"):setOnLeftClick(function()pings.setHat(0)end)
+:title('{"text":"Remove Hat","color":"#d43b3b"}')
+page2:newAction(8):setTexture(texture,48,80,16,16):setOnLeftClick(function()action_wheel:setPage(page0) end)
+:title("Back to Main Page")
+page2:newAction(1):setTexture(texture,32,80,16,16):setOnLeftClick(function()action_wheel:setPage(page1) end)
+:title("Next")
 end
 
 --   tick   --
-function tick()
+function events.tick()
 	--variables--
 	time = time + 1
-	worldTime = world.getTime()
-	local player_name = player.getName()
+
+	local worldTime = world.getTime()
 
 	--nameplate--
-    nameplate.ENTITY.setText(
-		rainbow_text("Flace", worldTime, 5, 10, 1):sub(1, -2)..
-		',"\n",'..
-		rainbow_text(player_name, worldTime + 3, 5, 10, 0.3):sub(2)
-	)
-
-	nameplate.ENTITY.setPos{0, currentHat == 0 and 0 or 0.4, 0}
-
-	--pings--
-	if time % pingsRefresh.tickDelay == 0 then
-		local ping_id = math.floor(time/pingsRefresh.tickDelay) % #pingsRefresh + 1
-		local value
-		if pingsRefresh[ping_id][2] and pingsRefresh[ping_id][3] then
-			value = pingsRefresh[ping_id][2][ pingsRefresh[ping_id][3] ]
-		end
-		pingsRefresh[ping_id][1](value)
+    nameplate.ALL:setText(rainbow_text(player_name, worldTime, 5.875, 20.348568))
+	--nameplate.ENTITY:setText(rainbow_text(player_name, worldTime + 3, 5, 10, 0.3))
+	if lhat ~= currentHat then
+	nameplate.ENTITY:setPos(0, currentHat == 0 and 0 or 0.4, 0)
+	lhat = currentHat
 	end
 end
-
-function rainbow_text(text, time, speed, offset, saturation)
-	--[[
-    local function col(x, speed, offset)
-        local hue = time*speed+x*offset % 360
-        return string.format("#%X", vectors.rgbToINT(vectors.hsvToRGB({hue/360, 1, 1})))
-    end--]]
-    local json = '['
+local jsonName = {}
+function rainbow_text(text, time, speed, offset)
     for i = 1, #text do
-        local char = text:sub(i,i)
-		local color = vectors.hsvToRGB{(time * speed + i * offset) / 360, saturation, 1} * 255
-        json = json .. '{"text": "'..char..'", "color": "'..string.format("#%02x%02x%02x", color.r, color.g, color.b)..'"},'
+		local char = text:sub(i,i)
+		if not jsonName[i] then
+			jsonName[i] = {}
+			jsonName[i].text = char
+		end
+		local color = vectors.hsvToRGB((time * speed + i * offset) / 1000, 1, 1)
+
+		jsonName[i].color = '#'..vectors.rgbToHex(color)
     end
-    return json:sub(1, -2).."]"
+
+    return json.encode(jsonName)
 end
---]]
+function events.entity_init()
+	player_name = player:getName()
+end
+function onPlayerNotify()
+pings.setHat(currentHat)
+end
