@@ -1,5 +1,5 @@
 --imported libraries
-local json = require("sdkjson") --minified dkjson
+local json = require("sjson") --minified dkjson
 require("PlayerNotifier") --does stuff when players change
 --data api!!!
 config:setName("Flace")
@@ -14,7 +14,7 @@ local vec3 = vec(1,1,1)
 
 -- texture size --
 local texture = vec(128, 128) -- widgth, height
---						   funny misspelling ^
+--					 funny misspelling ^
 --variables --
 ping = {}
 local time = 0
