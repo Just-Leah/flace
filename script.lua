@@ -29,22 +29,20 @@ anima.speeen:setSpeed(math.pi)
 hed.Het:setScale(1.4,1.4,1.4)
 
 -- hats --
-
-
 Hats = {
 	hed.Pineapple,
-  hed.GNHat,
+	hed.GNHat,
 	hed.KFC_Bucket,
 	hed.Crown,
 	hed.BakerHat,
 	hed.WizardHat,
 	hed.MushroomHat,
 	hed.EasterBasket,
-	hed.FryingPan
+	hed.FryingPan,
+	hed.FezPivot
 }
 local het = hed.Het
 local hetPlace = {
-
 	{pos = vec(-2.5,5,0), rot = vec(0,0,75)},
 	{pos = vec(2.76,5,0), rot = vec(10,0,0)},
 	{pos = vec(-2,8,-2), rot = vec(0,70,0)},
@@ -53,7 +51,8 @@ local hetPlace = {
 	{pos = vec(3.5,5,0), rot = vec(10,0,-70)},
 	{pos = vec(2,2.2,-1), rot = vec(0,10,-20)},
 	{pos = vec(0,3,5.5), rot = vec(90,0,-30)},
-	{pos = vec(-13,3.7,0), rot = vec(0,0,-10)}
+	{pos = vec(-13,3.7,0), rot = vec(0,0,-10)},
+	{pos = vec(3.6,-.7,4), rot = vec(35,0,-35)}--{pos = vec(-1.3,3,3.6), rot = vec(6,0,-74)}
 }
 hetPlace[0] = {pos = vec(0,0,0), rot = vec(0,0,0)}
 local currentHat = config:load("hat") or 0
@@ -116,7 +115,9 @@ page2:newAction(3):setTexture(texture,32,96,16,16):setOnLeftClick(function()ping
 :title('{"text":"Easter Basket","color":"#2fd1c5"}')
 page2:newAction(4):setTexture(texture,48,96,16,16):setOnLeftClick(function()pings.setHat(9)end)
 :title('{"text":"Frying Pan","color":"#292b31"}')
-page2:newAction(5):setItem("minecraft:barrier"):setOnLeftClick(function()pings.setHat(0)end)
+local fezAction = page2:newAction(5):setTexture(texture,16,96,16,16):setOnLeftClick(function()pings.setHat(10)end)
+:title('{"text":"Fez","color":"#292b31"}')
+page2:newAction(6):setItem("minecraft:barrier"):setOnLeftClick(function()pings.setHat(0)end)
 :title('{"text":"Remove Hat","color":"#d43b3b"}')
 page2:setAction(8,MenuAction)
 page2:newAction(1):setTexture(texture,32,80,16,16):setOnLeftClick(function()action_wheel:setPage(page1) end)
@@ -124,16 +125,19 @@ page2:newAction(1):setTexture(texture,32,80,16,16):setOnLeftClick(function()acti
 end
 
 --   tick   --
-function events.tick()
+function events.world_tick()
 	--variables--
 	time = time + 1
 
 	local worldTime = world.getTime()
 
 	--nameplate--
-    nameplate.ALL:setText(rainbow_text(player_name, worldTime, 5.875, 20.348568))
+    nameplate.ALL:setText(rainbow_text(player_name, worldTime, 0.275, 2.348568))
     avatar:color(lastHex)
 	--nameplate.ENTITY:setText(rainbow_text(player_name, worldTime + 3, 5, 10, 0.3))
+	if currentHat == 10 then
+		Hats[10].Fez.cube:setColor(lastHex)
+	end
 	if lhat ~= currentHat then
 	nameplate.ENTITY:setPos(0, currentHat == 0 and 0 or 0.4, 0)
 	lhat = currentHat
@@ -148,8 +152,10 @@ function rainbow_text(text, time, speed, offset)
 			jsonName[i] = {}
 			jsonName[i].text = char
 		end
-		local color = vectors.hsvToRGB((time * speed + i * offset) / 1000, 1, 1)
-		if i == #text then lastHex = color end
+		local color = vectors.hsvToRGB((time * speed + i * offset) / 240, 1, 1)
+		if i == #text then
+		lastHex = color
+		end
 		jsonName[i].color = '#'..vectors.rgbToHex(color)
     end
 
