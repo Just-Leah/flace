@@ -1,9 +1,9 @@
 --imported libraries
-local json = require("sjson") --minified dkjson
+local json = require("sjson") --minified Lua json library
 require("PlayerNotifier") --does stuff when players change
 --data api!!!
 config:setName("Flace")
-local player_name = ""
+local player_name = avatar:getEntityName()
 -- some vanilla stuff --
 vanilla_model.HELMET:setVisible(false)
 vanilla_model.CAPE:setVisible(false)
@@ -160,9 +160,6 @@ function rainbow_text(text, time, speed, offset)
     end
 
     return json.encode(jsonName)
-end
-function events.entity_init()
-	player_name = player:getName()
 end
 function onPlayerNotify()
 pings.setHat(currentHat)
